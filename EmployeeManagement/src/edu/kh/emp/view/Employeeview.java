@@ -46,6 +46,7 @@ public class Employeeview {
 	            // selectDeptTotalSalary()
 	            // DB 조회 결과를 HashMap<String, Integer>에 옮겨 담아서 반환
 	            // 부서코드, 급여 합 조회
+	            System.out.println("9. 주민등록번호가 일치하는 사원 정보 조회");
 	            
 	            System.out.println("10. 직급별 급여 평균 조회");
 	            // selectJobAvgSalary()

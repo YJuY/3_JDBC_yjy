@@ -609,8 +609,6 @@ public class EmployeeDAO {
 		return map;
 	}
 
-	
-
 
 	/**직급별 급여 평균 조회
 	 * @return map
