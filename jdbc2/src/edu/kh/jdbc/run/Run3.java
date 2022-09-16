@@ -18,16 +18,18 @@ public class Run3 {
 		
 		
 		TestService service = new TestService();	
+		
 		Scanner sc = new Scanner(System.in);
 		
 			System.out.print("번호를 입력해주세요 : ");
 			int no = sc.nextInt();
+			sc.nextLine();
 			
 			System.out.print("제목을 입력해주세요 : ");
-			String title = sc.next();
+			String title = sc.nextLine();
 			
 			System.out.print("내용을 입력해주세요 : ");
-			String content = sc.next();
+			String content = sc.nextLine();
 	
 		TestVO vo1 = new TestVO(no, title, content);
 		
