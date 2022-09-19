@@ -48,6 +48,52 @@ NOCYCLE
 NOCACHE;
 
 
+-- 회원 가입 INSERT
+INSERT INTO "MEMBER"
+VALUES( SEQ_MEMBER_NO.NEXTVAL, 'user01', 'pass01', '유저일',
+		'M', DEFAULT, DEFAULT);
+
+INSERT INTO "MEMBER"
+VALUES( SEQ_MEMBER_NO.NEXTVAL, 'user02', 'pass02', '유저이',
+		'F', DEFAULT, DEFAULT);
+
+INSERT INTO "MEMBER"
+VALUES( SEQ_MEMBER_NO.NEXTVAL, 'user03', 'pass03', '유저삼',
+		'F', DEFAULT, DEFAULT);
+
+SELECT * FROM "MEMBER";
+
+
+COMMIT;
+
+-- 아이디 중복 확인
+-- (중복되는 아이디가 입력되어도 탈퇴힌 계정이면 중복 x)
+SELECT COUNT(*) FROM "MEMBER"
+WHERE MEMBER_ID = 'user04'
+AND SECESSION_FL= 'N';
+-- > ID가 user01 이면서 탈퇴하지 않은 회원 조회
+
+-- 중복이면 1, 아니면 0 조회
+
+
+-- 로그인(아이디, 비밀번호 일치 + 탈퇴 x 회원)
+SELECT MEMBER_NO, MEMBER_ID, MEMBER_NM, MEMBER_GENDER,
+		TO_CHAR(ENROLL_DATE, 'YYYY"년" MM"월" DD"일" HH24:MI:SS') ENROLL_DATE
+FROM "MEMBER"
+WHERE MEMBER_ID = 'user01'
+AND MEMBER_PW = 'pass01'
+AND SECESSION_FL = 'N';
+
+
+
+
+
+
+
+
+
+
+
 
 
 
