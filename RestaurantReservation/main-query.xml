@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>main-query.xml file</comment>
+	<!-- 예약 -->
+	<entry key="reservation">
+		INSERT INTO "RESERVATION"
+		VALUES(SEQ_RES_NO.NEXTVAL, ?, ?, ?, ?, DEFAULT)
+	</entry>
+	
+	<!-- 예약확인 -->
+	<entry key="reservationCheck">
+	SELECT RES_NO, RES_NM, RES_DATE, RES_TIME, RES_NUMOF
+	FROM RESERVATION
+	WHERE RES_NO = ?
+	</entry>
+	
+	
+	<!--  -->
+	<entry key="reservationNo">
+	SELECT RES_NO
+	FROM RESERVATION
+	WHERE RES_NM = ?
+	</entry>
+	
+	
+</properties>

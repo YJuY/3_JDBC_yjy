@@ -13,15 +13,10 @@ public class MainView {
 	
 	private MainService service = new MainService();
 	
-	private MainDao dao = new MainDao();
 	/**
 	 * 첫 시간 화면
 	 */
 	public void MainList() {
-		
-		
-		
-		
 		int input =-1;
 		
 		do {
@@ -29,6 +24,7 @@ public class MainView {
 				System.out.println("[ 식당 예약 페이지 입니다. ] ");
 				System.out.println("1. 예약");
 				System.out.println("2. 예약확인");
+				System.out.println("0. 종료");
 				
 				System.out.print("번호를 선택해 주세요 : ");
 				input = sc.nextInt();
@@ -36,7 +32,7 @@ public class MainView {
 				
 				switch(input) {
 				case 1: reservation(); break;
-				case 2: reservationCheck(); break;
+				case 2: newCheck(); break;
 				case 0: System.out.println("이용해 주셔서 감사합니다." ); break;
 				default: System.out.println("선택지에 있는 번호만 선택해 주세요!");
 					
@@ -49,59 +45,128 @@ public class MainView {
 	}
 
 
-
 	/**
 	 * 예약 화면
 	 */
 	private void reservation() {
+		String resName = null;
+		String resDate = null;
+		String resTime = null;
+		int resNumOf = 0;
 		
-		
-		
-		System.out.println("[ 예약하기 ] ");
-		System.out.println(" * 아래 사항을 작성해 주세요.");
-		System.out.println("날짜 선택 : ");
-		String day = sc.next();
-		
-		System.out.println("시간 선택 : ");
-		int time = sc.nextInt();
-		
-		
-		int NumOfPeople = 0;
-		while(true) {
-			if(NumOfPeople > 0 && NumOfPeople < 5) {
-				System.out.println("인원 선택(1명~4명): ");
-				NumOfPeople = sc.nextInt();
-				break;
+		try {
+			System.out.println("[ 예약 ]");
+			System.out.println("* 아래 사항을 모두 입력해 주세요.");
+			System.out.print("성함(ex:홍길동) : ");
+			resName = sc.next();
+			
+			System.out.print("예약 날짜(ex:09월27일 or 09.27) : ");
+			resDate = sc.next();
+			
+			System.out.println("--------------예약 시간--------------");
+			System.out.println("--------------=== 오후 ==------------");
+			System.out.println("12:00  12:30  1:00  1:30  2:00  2:30");
+			System.out.println("3:00  3:30  4:00  4:30  5:00  5:30");
+			System.out.println("6:00 ");
+			
+			System.out.println("예약 시간(ex: 12시 or 1시20분 or 2 or 3:30 or 4시) : ");
+			resTime = sc.next();
+			
+			while(true){
+				System.out.println("**최대 예약 가능 인원은 4명 입니다.");
+				System.out.println("예약인원(ex:4) : ");
+				resNumOf = sc.nextInt();
+				
+				if(resNumOf <= 4) {
+					break;
+				}
+			}
+			
+			Reservation reser = new Reservation(resName,resDate,resTime,resNumOf);
+			
+			int result = service.reservation(reser);
+			
+			if(result > 0) {
+				System.out.println("****************예약 완료 되었습니다.*******************");
 				
 			}else {
-				System.out.println("1명~4명까지만 예약가능합니다.");
+				System.out.println("예약 실패............");
 			}
+			
+			System.out.println();
+			
+//			reservationCheck(reser.getResNo());
+			
+			if(reser != null) {
+				System.out.println("------------예약 확인----------");
+				System.out.println("예약 번호 : "+ reser.getResNo());
+				System.out.println("예약자 : " + reser.getResName());
+				System.out.println("예약 날짜 : " + reser.getResDate());
+				System.out.println("예약 시간 : " + reser.getResTime());
+				System.out.println("예약 인원 : " + reser.getResNumOf());
+				System.out.println("-----------------------------");
+			} else {
+				System.out.println("예약번호가 없습니다.");
+			}
+			
+			
+			System.out.println("0.메인화면으로 돌아가기");
+			
+			
+		}catch(Exception e){
+			System.out.println("\n<<예약 중 예외발생......>>\n");
+			e.printStackTrace();
 		}
-		
-		Reservation reser = new Reservation();
-		reser.setDay(day);
-		reser.setTime(time);
-		reser.setNumOfPeople(NumOfPeople);
-		
-		int result = service.reservation(day, time, NumOfPeople);
-		
-		if(result >0) commit(conn)
-//		System.out.println("메뉴 선택(선택사항) : ");
-		
 		
 	}
 	
 	
 	/**
-	 * 예약확인 화면
+	 * 메인예약확인
 	 */
-	private void reservationCheck() {
+	private void newCheck() {
 		System.out.println("예약번호를 입력해주세요 : ");
+		int resNo = sc.nextInt();
 		
+		reservationCheck(resNo);
 		
 	}
 	
-	
+	/**
+	 * 예약확인
+	 */
+	private void reservationCheck(int resNo) {
+		try {
+			String resTime = null;
+			String resName = null;
+			String resDate = null;
+			int resNumOf = 0;
+			String resCancel = null;
+			
+			
+			
+			Reservation reser = service.reservationCheck(resNo);
+//			reser.setResNo(getInt("RES_NO"));
+			
+			if(reser != null) {
+				System.out.println("------------예약 확인----------");
+				System.out.println("예약 번호 : "+ reser.getResNo());
+				System.out.println("예약자 : " + reser.getResName());
+				System.out.println("예약 날짜 : " + reser.getResDate());
+				System.out.println("예약 시간 : " + reser.getResTime());
+				System.out.println("예약 인원 : " + reser.getResNumOf());
+				System.out.println("-----------------------------");
+			} else {
+				System.out.println("예약번호가 없습니다.");
+			}
+			
+			
+		}catch(Exception e) {
+			System.out.println("\n<<예약 조회중 예외 발생>>\n");
+			e.printStackTrace();
+			
+		}
+	}
 	
 	
 	

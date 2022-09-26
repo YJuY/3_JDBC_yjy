@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>driver.xml file</comment>
+	<comment>driver.xml file</comment>
+
+	<entry key = "driver">oracle.jdbc.driver.OracleDriver</entry>
+	<entry key = "url">jdbc:oracle:thin:@localhost:1521:xe</entry><!-- 외부에서 테이터 배이스 연결 위한 포트 주소 적음 -->
+	<entry key="user">mini_yjy</entry>
+	<entry key="password">mini1234</entry>
 </properties>
