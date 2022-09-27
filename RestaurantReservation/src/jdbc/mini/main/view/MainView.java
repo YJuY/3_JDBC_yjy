@@ -13,12 +13,18 @@ import java.util.Scanner;
 import jdbc.mini.main.model.dao.MainDao;
 import jdbc.mini.main.model.service.MainService;
 import jdbc.mini.main.vo.Reservation;
+import jdbc.mini.menu.view.MenuView;
+import jdbc.mini.review.view.ReviewView;
 
 public class MainView {
 	
 	private Scanner sc = new Scanner(System.in);
 	
 	private MainService service = new MainService();
+	
+	private MenuView menuView = new MenuView();
+	
+	private ReviewView reviewView = new ReviewView();
 	
 	/**
 	 * 첫 시간 화면
@@ -34,7 +40,8 @@ public class MainView {
 				System.out.println("1. 예약");
 				System.out.println("2. 예약확인");
 				System.out.println("3. 식당 메뉴");
-				System.out.println("4. 직원 페이지");
+				System.out.println("4. 예약자 리뷰");
+//				System.out.println("4. 직원 페이지");
 				System.out.println("0. 종료");
 				
 				System.out.print("번호를 선택해 주세요 : ");
@@ -44,8 +51,10 @@ public class MainView {
 				switch(input) {
 				case 1: reservation(); break;
 				case 2: newCheck(); break;
-//				case 3: menuView(); break;
-//				case 4: staffPage(); break;
+				case 3: 
+					MenuView.menuView(); break;
+				case 4: 
+					reviewView.reviewView(); break;
 				case 0: System.out.println("이용해 주셔서 감사합니다." ); break;
 				default: System.out.println("선택지에 있는 번호만 선택해 주세요!");
 					
@@ -116,7 +125,7 @@ public class MainView {
 
 			
 			System.out.println("-------------------------------- 예약 시간 --------------------------------");
-			System.out.println("----------------=--------------=== 오후 ===----------------------=--------");
+			System.out.println("-------------------------------=== 오후 ===-------------------------------");
 			System.out.println("        0) 12:00  1) 1:00  2) 2:00  3) 3:00 4) 4:00 5) 5:00 6) 6:00      ");
 			System.out.println("\n예약 시간을 선택해 주세요 : ");
 			

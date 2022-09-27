@@ -2,10 +2,15 @@ package jdbc.mini.menu.model.dao;
 import static jdbc.mini.common.JDBCTemplate.*;
 
 import java.io.FileInputStream;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+
+import jdbc.mini.menu.vo.MenuAll;
 
 public class MenuDAO {
 	// 필드(== 멤버 변수)
@@ -22,7 +27,40 @@ public class MenuDAO {
 				e.printStackTrace();
 			}
 		}
-		
+
+		/** 메뉴판 조회
+		 * @param conn
+		 * @return menuList
+		 * @throws Exception
+		 */
+		public List<MenuAll> selectMenuAll(Connection conn) throws Exception {
+			List<MenuAll> menuList = new ArrayList<>();
+			
+			try {
+				String sql = prop.getProperty("selectMenuAll");
+				
+				stmt = conn.createStatement();
+				
+				rs = stmt.executeQuery(sql);
+				
+				while(rs.next()) {
+					
+					int menuNo = rs.getInt("MENUNO");
+					String menuName = rs.getString("MENUNM");
+					String menuPrice = rs.getString("MENUPRICE");
+					
+					MenuAll menu = new MenuAll(menuNo, menuName, menuPrice);
+					
+					menuList.add(menu);
+				}
+			}finally {
+				close(rs);
+				close(stmt);
+			}
+			return menuList;
+		}
+
+
 		
 		
 		
