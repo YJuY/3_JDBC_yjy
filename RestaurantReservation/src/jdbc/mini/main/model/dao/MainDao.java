@@ -46,6 +46,7 @@ public class MainDao {
 			pstmt.setString(2,reser.getResDate());
 			pstmt.setString(3, reser.getResTime());
 			pstmt.setInt(4, reser.getResNumOf());
+			pstmt.setString(5,reser.getResPhone());
 			
 			result = pstmt.executeUpdate();
 			
@@ -58,19 +59,28 @@ public class MainDao {
 
 	/** 예약 확인 DAO
 	 * @param conn
-	 * @param resNo
 	 * @return reser
 	 * @throws Exception
 	 */
-	public Reservation reservationCheck(Connection conn, int resNo) throws Exception {
+	public Reservation reservationCheck(Connection conn, int resNo, String resPhone) throws Exception {
 		Reservation reser = null;
 		
 		try {
-			String sql = prop.getProperty("reservationCheck");
 			
-			pstmt = conn.prepareStatement(sql);
+			if(resPhone != null) {
+				String sql = prop.getProperty("reservationCheckPhone");
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, resPhone);
+
+				
+			}
+			if(resNo != 0){
+				String sql = prop.getProperty("reservationCheckNo");
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, resNo);
+			}
 			
-			pstmt.setInt(1, resNo);
+			
 			
 			rs = pstmt.executeQuery();
 			
@@ -79,9 +89,11 @@ public class MainDao {
 				
 				reser.setResNo(rs.getInt("RES_NO"));
 				reser.setResName(rs.getString("RES_NM"));
+				reser.setResPhone(rs.getString("RES_PHON"));
 				reser.setResDate(rs.getString("RES_DATE"));
 				reser.setResTime(rs.getString("RES_TIME"));
 				reser.setResNumOf(rs.getInt("RES_NUMOF"));
+				reser.setResCancel(rs.getString("RES_CANCEL"));
 				
 			}
 		}finally {
@@ -91,6 +103,31 @@ public class MainDao {
 		
 		return reser;
 	}
+
+	/** 예약 취소 DAO
+	 * @param conn
+	 * @param resNo
+	 * @return
+	 * @throws Exception
+	 */
+	public int cancelResr(Connection conn, int resNo) throws Exception {
+		int result = 0;
+		
+		try {
+			String sql = prop.getProperty("cancelResr");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, resNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
 
 	
 	

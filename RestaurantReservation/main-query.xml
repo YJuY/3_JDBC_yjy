@@ -5,23 +5,30 @@
 	<!-- 예약 -->
 	<entry key="reservation">
 		INSERT INTO "RESERVATION"
-		VALUES(SEQ_RES_NO.NEXTVAL, ?, ?, ?, ?, DEFAULT)
+		VALUES(SEQ_RES_NO.NEXTVAL, ?, ?, ?, ?, DEFAULT,?)
 	</entry>
 	
-	<!-- 예약확인 -->
-	<entry key="reservationCheck">
-	SELECT RES_NO, RES_NM, RES_DATE, RES_TIME, RES_NUMOF
-	FROM RESERVATION
-	WHERE RES_NO = ?
+	<!-- 예약확인NO -->
+	<entry key="reservationCheckNo">
+		SELECT RES_NO, RES_NM, RES_DATE, RES_TIME, RES_NUMOF, RES_PHON, RES_CANCEL
+		FROM RESERVATION
+		WHERE RES_NO = ?
 	</entry>
-	
-	
-	<!--  -->
-	<entry key="reservationNo">
-	SELECT RES_NO
-	FROM RESERVATION
-	WHERE RES_NM = ?
+	<!-- 예약확인P -->
+	<entry key="reservationCheckPhone">
+		SELECT RES_NO, RES_NM, RES_DATE, RES_TIME, RES_NUMOF, RES_PHON, RES_CANCEL
+		FROM RESERVATION
+		WHERE RES_PHON =?
 	</entry>
+
+	
+	<!-- 예약 취소 -->
+	<entry key="cancelResr">
+		UPDATE "RESERVATION" SET
+		RES_CANCEL = 'Y'
+		WHERE RES_NO = ?
+	</entry>
+
 	
 	
 </properties>

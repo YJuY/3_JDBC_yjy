@@ -8,10 +8,12 @@ public class Reservation {
 	private String resTime;	// 예약시간
 	private int resNumOf;	// 예약인원
 	private String resCancel;//예약취소 여부
+	private String resPhone; // 전화번호
+	
 
 	public Reservation() { }
 	
-	public Reservation(int resNo, String resName, String resDate, String resTime, int resNumOf, String resCancel) {
+	public Reservation(int resNo, String resName, String resDate, String resTime, int resNumOf, String resCancel, String resPhone) {
 		super();
 		this.resNo = resNo;
 		this.resName = resName;
@@ -19,14 +21,16 @@ public class Reservation {
 		this.resTime = resTime;
 		this.resNumOf = resNumOf;
 		this.resCancel = resCancel;
+		this.resPhone = resPhone;
 	}
 
-	public Reservation(String resName, String resDate, String resTime, int resNumOf) {
+	public Reservation(String resName,  String resPhone, String resDate, String resTime, int resNumOf) {
 		super();
 		this.resName = resName;
 		this.resDate = resDate;
 		this.resTime = resTime;
 		this.resNumOf = resNumOf;
+		this.resPhone = resPhone;
 	}
 
 	
@@ -79,6 +83,14 @@ public class Reservation {
 
 	public void setResCancel(String resCancel) {
 		this.resCancel = resCancel;
+	}
+	
+	public String getResPhone() {
+		return resPhone;
+	}
+	
+	public void setResPhone(String resPhone) {
+		this.resPhone = resPhone;
 	}
 
 
