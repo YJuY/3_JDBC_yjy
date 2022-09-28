@@ -1,5 +1,7 @@
 package jdbc.mini.main.vo;
 
+import java.util.List;
+
 public class Reservation {
 	
 	private int resNo;		// 예약번호
@@ -10,6 +12,15 @@ public class Reservation {
 	private String resCancel;//예약취소 여부
 	private String resPhone; // 전화번호
 	
+	private List<Reservation> reserList;
+	
+	public List<Reservation> getReserList() {
+		return reserList;
+	}
+
+	public void setReserList(List<Reservation> reserList) {
+		this.reserList = reserList;
+	}
 
 	public Reservation() { }
 	

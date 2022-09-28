@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>review-query.xml file</comment>
+	<comment>review-query.xml file</comment>
+	
+	<!-- 리뷰 보기 -->
+	<entry key ="reviewRead">
+		SELECT REVIEW_NO, REVIEW_SCORE, REVIEW_CONTENTS, REVIEW_DATE
+		FROM REVIEW
+	</entry>
+	
+	<!-- 리뷰 작성 -->
+	<entry key="InputReview">
+		INSERT INTO "REVIEW"
+		VALUES(SEQ_REVIEW_NO.NEXTvAL, ?, ?, DEFAULT, )
+	</entry>
+	
+<!--  	평점 평균
+	<entry key="scoreAvg">
+		SELECT 
+		FROM REVIEW
+	</entry> --> 
 </properties>

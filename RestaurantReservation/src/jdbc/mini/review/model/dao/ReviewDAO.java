@@ -31,7 +31,7 @@ public class ReviewDAO {
 	}
 	
 	/** 리뷰 보기 DAO
-	 * @return
+	 * @return reviewList
 	 * @throws Exception
 	 */
 	public List<Review> reviewRead(Connection conn) throws Exception{
@@ -45,14 +45,19 @@ public class ReviewDAO {
 			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {
-				int score = rs.getInt("SCORE");
+				int reviewNo = rs.getInt("REVIEW_NO");
+				int reviewScore = rs.getInt("REVIEW_SCORE");
 				String reviewContents = rs.getString("REVIEW_CONTENTS");
 				String reviewDate = rs.getString("REVIEW_DATE");
+//				int avgscore = rs.getInt("AVG_SCORE");
+				
 				
 				Review review = new Review();
-				review.setScore(score);
-				review.setReviewDate(reviewDate);
+				review.setReviewNo(reviewNo);
+				review.setReviewScore(reviewScore);
 				review.setReviewContents(reviewContents);
+				review.setReviewDate(reviewDate);
+//				review.setAvgscore(avgscore);
 				
 				reviewList.add(review);
 
@@ -63,6 +68,64 @@ public class ReviewDAO {
 		}
 		return reviewList;
 	}
+
+	/** 리뷰 작성 DAO
+	 * @param conn
+	 * @param review
+	 * @return result
+	 * @throws Exception
+	 */
+	public int InputReview(Connection conn, Review review) throws Exception {
+		
+		int result = 0;
+		
+		try {
+			String sql = prop.getProperty("InputReview");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, review.getReviewScore());
+			pstmt.setString(2, review.getReviewContents());
+			
+			result = pstmt.executeUpdate();
+			
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+//	/**평점 평균DAO
+//	 * @param conn
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public Review scoreAvg(Connection conn) throws Exception{
+//		Review review = new Review();
+//		
+//		
+//		try {
+//			String sql = prop.getProperty("scoreAvg");
+//			
+//			stmt = conn.createStatement();
+//			
+//			rs = stmt.executeQuery(sql);
+//			
+//			if(rs.next()) {
+//				int avgscore = rs.getInt("AVG_SCORE");
+//				
+//				review.setAvgscore(avgscore);
+//			}
+//			
+//		}finally {
+//			close(rs);
+//			close(stmt);
+//		}
+//		
+//		return review;
+//	}
 
 
 

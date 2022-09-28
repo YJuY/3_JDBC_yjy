@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -35,16 +36,18 @@ public class MainView {
 		do {
 			try {
 				
-
-				System.out.println("[ 식당 예약 페이지 입니다. ] ");
-				System.out.println("1. 예약");
-				System.out.println("2. 예약확인");
-				System.out.println("3. 식당 메뉴");
-				System.out.println("4. 예약자 리뷰");
-//				System.out.println("4. 직원 페이지");
-				System.out.println("0. 종료");
+				System.out.println();
+				System.out.println("[ 안녕하세요. 즉석떡볶이집입니다. 아래 선택지 중 선택해 주세요 ] ");
+				System.out.println("=================================================");
+				System.out.println("              	  1. 예약");
+				System.out.println("              	  2. 예약확인");
+				System.out.println("              	  3. 식당 메뉴");
+				System.out.println("              	  4. 예약자 리뷰");
+				System.out.println("              	  0. 종료");
+				System.out.println("=================================================");
 				
-				System.out.print("번호를 선택해 주세요 : ");
+				System.out.println();
+				System.out.print("번호를 입력해 주세요 : ");
 				input = sc.nextInt();
 				
 				
@@ -52,15 +55,17 @@ public class MainView {
 				case 1: reservation(); break;
 				case 2: newCheck(); break;
 				case 3: 
-					MenuView.menuView(); break;
+					menuView.menuView(); break;
 				case 4: 
-					reviewView.reviewView(); break;
+					List<Reservation> reserno = service.selectNoAll();
+					reviewView.reviewView(reserno); break;
 				case 0: System.out.println("이용해 주셔서 감사합니다." ); break;
 				default: System.out.println("선택지에 있는 번호만 선택해 주세요!");
 					
 				}
 			}catch(Exception e) {
 				System.out.println("입력 형식이 올바르지 않습니다.");
+				e.printStackTrace();
 				sc.nextLine();
 			}
 		}while(input !=0);
@@ -78,13 +83,15 @@ public class MainView {
 		int resNumOf = 0;
 		
 		try {
+			System.out.println();
 			System.out.println("[ 예약 ]");
-			System.out.println("* 아래 사항을 모두 입력해 주세요.");
-			System.out.print("성함(ex:홍길동) : ");
+			System.out.println("* 아래 사항을 모두 입력해 주세요.\n");
+			
+			System.out.print("성함(ex:홍길동) 		: ");
 			resName = sc.next();
 			sc.nextLine();
 			
-			System.out.print("전화번호 (- 업이 입력): ");
+			System.out.print("전화번호 (- 업이 입력)	: ");
 			resPhone = sc.next();
 			sc.nextLine();
 			
@@ -97,42 +104,31 @@ public class MainView {
 			cal.add(cal.MONTH, +1);
 			String date2 = sdf.format(cal.getTime());
 			
-			System.out.println("예약 가능일시 ["+ date +"~"+ date2 + "]");
+			System.out.println("예약 가능일시 \n["+ date +"~"+ date2 + "]");
 			
-//			boolean re = false;
-//			do {
 					System.out.print("달 : ");
 					String month = sc.next();
+					month = month.replaceAll("[^0-9]","");
 					
 					System.out.print("일 : ");
 					String day = sc.next();
-					
+					day = day.replaceAll("[^0-9]","");
 					
 					resDate = (month+"월"+day+"일");
 					sc.nextLine();
+					System.out.println();
 					
-//					re = service.isWithinRange(resDate, date, date2);
-//					
-//				if(re = true) {
-//					System.out.println("등록완료1111111111111111111");
-//					break;
-//				}
-//				
-//				
-//			}while(re);
-//			
-			
-
-			
-			System.out.println("-------------------------------- 예약 시간 --------------------------------");
-			System.out.println("-------------------------------=== 오후 ===-------------------------------");
-			System.out.println("        0) 12:00  1) 1:00  2) 2:00  3) 3:00 4) 4:00 5) 5:00 6) 6:00      ");
-			System.out.println("\n예약 시간을 선택해 주세요 : ");
+					
+			System.out.println("--------------------------[ 예약 시간 ]---------------------------");
+			System.out.println("---( 오후 )------------------------------------------------------");
+			System.out.println("  0) 12:00  1) 1:00  2) 2:00  3) 3:00 4) 4:00 5) 5:00 6) 6:00 ");
+			System.out.print("\n예약 시간을 선택해 주세요 : ");
 			
 			resTime = sc.next();
 			
 			switch(resTime) {
-			case "0": resTime = "12"; break;
+			case "0": resTime = "12";
+					break;
 			case "1": resTime = "1"; break;
 			case "2": resTime = "2"; break;
 			case "3": resTime = "3"; break;
@@ -144,11 +140,11 @@ public class MainView {
 			}
 			
 			while(true){
-				System.out.println("**최대 예약 가능 인원은 4명 입니다.");
-				System.out.println("예약인원(ex:4) : ");
+				System.out.println("**최대 예약 가능 인원은 8명 입니다.**");
+				System.out.print("예약인원(ex:8) : ");
 				resNumOf = sc.nextInt();
 				
-				if(resNumOf <= 4) {
+				if(resNumOf <= 8) {
 					break;
 				}
 			}
@@ -158,8 +154,8 @@ public class MainView {
 			int result = service.reservation(reser);
 			
 			if(result > 0) {
-				System.out.println("****************예약 완료 되었습니다.*******************");
-				System.out.println(reser.getResName()+"님 예약해주셔서 감사합니다. 예약정보를 확인해 주세요.");
+				System.out.println();
+				System.out.println(reser.getResName()+"님 예약이 완료되었습니다. 예약정보를 확인해 주세요.");
 			}else {
 				System.out.println("예약 실패............");
 			}
@@ -217,22 +213,18 @@ public class MainView {
 				System.out.println("취소된 예약입니다.");
 			
 			} else {
-				System.out.println("------------예약 확인----------");
-				
-				System.out.println("예약 번호 : "+ reser.getResNo());
-				System.out.println("예약자 : " + reser.getResName());
-				System.out.println("전화번호 : " + reser.getResPhone());
-				System.out.println("예약 날짜 : " + reser.getResDate());
-				System.out.println("예약 시간 : " + "(오후) "+reser.getResTime() + "시");
-				System.out.println("예약 인원 : " + reser.getResNumOf()+" 명");
-				System.out.println("-----------------------------");
+				System.out.println("=================[예약 확인]=================");
+				System.out.println();
+				System.out.println("		예약 번호 : "+ reser.getResNo()+"\n");
+				System.out.println("		예약자 : " + reser.getResName()+"\n");
+				System.out.println("		전화번호 : " + reser.getResPhone()+"\n");
+				System.out.println("		예약 날짜 : " + reser.getResDate()+"\n");
+				System.out.println("		예약 시간 : " + "(오후) "+reser.getResTime() + "시\n");
+				System.out.println("		예약 인원 : " + reser.getResNumOf()+" 명\n");
+				System.out.println("===========================================");
 				subbar(reser);
 				
 			}
-			
-			
-			
-			
 			
 		}catch(Exception e) {
 			System.out.println("\n<<예약 조회중 예외 발생>>\n");

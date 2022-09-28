@@ -29,6 +29,10 @@
 		WHERE RES_NO = ?
 	</entry>
 
-	
-	
+	<!-- no전체 조회 -->
+	<entry key="selectNoAll">
+		SELECT RES_NO
+		FROM RESERVATION
+	</entry>
+
 </properties>

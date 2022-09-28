@@ -6,6 +6,8 @@ public class MenuAll {
 	private String menuName;	//메뉴 이름
 	private String menuPrice;	//가격
 	
+	public MenuAll() { }
+	
 	public MenuAll(int menuNo, String menuName, String menuPrice) {
 		super();
 		this.menuNo = menuNo;

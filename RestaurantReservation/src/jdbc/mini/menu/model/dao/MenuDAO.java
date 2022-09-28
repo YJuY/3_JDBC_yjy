@@ -45,11 +45,13 @@ public class MenuDAO {
 				
 				while(rs.next()) {
 					
-					int menuNo = rs.getInt("MENUNO");
-					String menuName = rs.getString("MENUNM");
-					String menuPrice = rs.getString("MENUPRICE");
+					String menuName = rs.getString("MENU_NM");
+					String menuPrice = rs.getString("MENU_PRICE");
 					
-					MenuAll menu = new MenuAll(menuNo, menuName, menuPrice);
+					MenuAll menu = new MenuAll();
+					
+					menu.setMenuName(menuName);
+					menu.setMenuPrice(menuPrice);
 					
 					menuList.add(menu);
 				}

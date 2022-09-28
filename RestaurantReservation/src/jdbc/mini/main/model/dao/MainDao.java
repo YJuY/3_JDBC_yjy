@@ -7,9 +7,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import jdbc.mini.main.vo.Reservation;
+import jdbc.mini.menu.vo.MenuAll;
 
 public class MainDao {
 
@@ -126,6 +129,39 @@ public class MainDao {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	/** 예약번호 모두 조회
+	 * @param conn
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Reservation> selectNoAll(Connection conn) throws Exception{
+		List<Reservation> resernoList = new ArrayList<>();
+		
+		try {
+			String sql = prop.getProperty("selectNoAll");
+			
+			stmt = conn.createStatement();
+			
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				
+				int resNo = rs.getInt("RES_NO");
+
+				Reservation reser = new Reservation();
+				
+				reser.setResNo(resNo);
+				
+				resernoList.add(reser);
+
+			}
+		}finally {
+			close(rs);
+			close(stmt);
+		}
+		return resernoList;
 	}
 
 

@@ -12,6 +12,7 @@ import java.util.List;
 
 import jdbc.mini.main.model.dao.MainDao;
 import jdbc.mini.main.vo.Reservation;
+import jdbc.mini.menu.vo.MenuAll;
 
 public class MainService {
 
@@ -73,32 +74,18 @@ public class MainService {
 		return result;
 	}
 
-//	/** 날자 검사
-//	 * @param resDate
-//	 * @param date
-//	 * @param date2
-//	 * @return 
-//	 * @throws Exception
-//	 */
-//	public boolean isWithinRange(String resDate, String date, String date2) throws Exception {
-////		if(resDate.length() != 4 || date.length() != 4 || date2.length() != 4){
-////	        return false;
-////	    }        
-////	    
-////		resDate = resDate.substring(4, 6) + "-" + resDate.substring(6, 8);
-////		date = date.substring(4, 6) + "-" + date.substring(6, 8);
-////		date2 = date2.substring(4, 6) + "-" + date2.substring(6, 8);
-////	    
-////	    LocalDate localdate = LocalDate.parse(resDate);
-////	    LocalDate startLocalDate = LocalDate.parse(date);
-////	    LocalDate endLocalDate = LocalDate.parse(date2);
-////	    endLocalDate = endLocalDate.plusDays(1); // endDate는 포함하지 않으므로 +1일을 해줘야함.
-////	    
-////	    return ( ! localdate.isBefore( startLocalDate ) ) && ( localdate.isBefore( endLocalDate ) );
-//		
-//		if(resDate)
-//		
-//	}
+	/** 번호 리스트 조회
+	 * @return
+	 */
+	public List<Reservation> selectNoAll() throws Exception{
+		Connection conn = getConnection();
+		
+		List<Reservation> reserno = dao.selectNoAll(conn);
+		
+		close(conn);
+		
+		return reserno;
+	}
 
 
 

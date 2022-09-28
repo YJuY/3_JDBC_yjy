@@ -11,7 +11,7 @@ public class MenuService {
 	private MenuDAO dao = new MenuDAO();
 
 	/** 메뉴판 조회
-	 * @return
+	 * @return menuList
 	 * @throws Exception
 	 */
 	public List<MenuAll> selectMenuAll() throws Exception{
